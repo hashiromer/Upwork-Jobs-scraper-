@@ -74,9 +74,9 @@ func main() {
 		"x-odesk-user-agent":    "oDesk LM",
 		"x-requested-with":      "XMLHttpRequest",
 	}
-
+	//Upwork limits pagination to 100 pages
 	total_iterations := 100
-	//Query to serach for on Upwork
+	//Query to serach for on Upwork, searching for jobs with shopify keyword
 	query := "shopify"
 	//Number of results per page
 	per_page := 100
