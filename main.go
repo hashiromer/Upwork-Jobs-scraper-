@@ -2,8 +2,10 @@ package main
 
 import (
 	"bufio"
+	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 	"time"
 
 	"github.com/Danny-Dasilva/CycleTLS/cycletls"
@@ -75,7 +77,7 @@ func main() {
 		"x-requested-with":      "XMLHttpRequest",
 	}
 	//Upwork limits pagination to 100 pages
-	total_iterations := 100
+	total_iterations := 10
 	//Query to serach for on Upwork, searching for jobs with shopify keyword
 	query := "shopify"
 	//Number of results per page
@@ -87,7 +89,6 @@ func main() {
 		upwork_api_url_template := "https://www.upwork.com/search/jobs/url?q=%s&per_page=%d&sort=recency&page=%d"
 		url := fmt.Sprintf(upwork_api_url_template, query, per_page, i)
 
-		//Sleep for 2 seconds
 		time.Sleep(2 * time.Second)
 
 		data, err := get_data(url, headers)
@@ -107,5 +108,67 @@ func main() {
 		}
 	}
 
-	fmt.Println("Done")
+	fmt.Println("Scraping done")
+
+	files, err := filepath.Glob("data/*.json")
+	if err != nil {
+		panic(err)
+	}
+
+	var all_jobs []map[string]interface{}
+	for _, file := range files {
+		fmt.Println(file)
+		data, err := os.ReadFile(file)
+		if err != nil {
+			panic(err)
+		}
+
+		//Parse data as json without interface
+		var result map[string]interface{}
+		err = json.Unmarshal(data, &result)
+		if err != nil {
+			panic(err)
+		}
+
+		//Get value from key
+		key := "searchResults"
+		value := result[key]
+
+		//Check for errors
+		is_error := value.(map[string]interface{})["jobSearchError"]
+
+		//Skip the file if is_error is True
+
+		if is_error == true {
+			fmt.Println("Error")
+			continue
+		}
+
+		//Get jobs from the json
+		jobs := value.(map[string]interface{})["jobs"]
+
+		//Add all jobs to the all_jobs slice
+		for _, job := range jobs.([]interface{}) {
+			all_jobs = append(all_jobs, job.(map[string]interface{}))
+		}
+
+	}
+
+	jobs := map[string]interface{}{
+		"jobs": all_jobs,
+	}
+
+	json_data, err := json.Marshal(jobs)
+
+	if err != nil {
+		panic(err)
+	}
+
+	err = save_to_file(string(json_data), "all_jobs.json")
+	if err != nil {
+		panic(err)
+	}
+
+	os.RemoveAll("data")
+
 }
