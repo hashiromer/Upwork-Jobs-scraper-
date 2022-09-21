@@ -1,9 +1,10 @@
-module github.com/USERNAME/simple-go-service
+module scrapers
 
 go 1.18
 
+require github.com/Danny-Dasilva/CycleTLS/cycletls v0.0.0-20220620102923-c84d740b4757
+
 require (
-	github.com/Danny-Dasilva/CycleTLS/cycletls v0.0.0-20220620102923-c84d740b4757
 	github.com/Danny-Dasilva/fhttp v0.0.0-20220524230104-f801520157d6 // indirect
 	github.com/Danny-Dasilva/utls v0.0.0-20220604023528-30cb107b834e // indirect
 	github.com/andybalholm/brotli v1.0.4 // indirect

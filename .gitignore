@@ -2,3 +2,5 @@ data/
 
 
 all_jobs.json
+
+*.json
