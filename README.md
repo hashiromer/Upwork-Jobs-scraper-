@@ -17,7 +17,8 @@ Golang is a more lower level language compared to Python, so it allows changing 
 # How can you contribute?
 
 These are some of the features I think could be useful.
-
+  
+- Better error handling with channels  
 - Add support for automatic proxy rotation. It can be extremely effective when used in conjunction with go routines. 
 - Add Api schema for Upwork Api.
 - Add more scrapers, a lot of logic is platform agnostic which could be used to build scrapers for more platforms.
