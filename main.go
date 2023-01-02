@@ -7,7 +7,7 @@ import (
 func main() {
 
 	p := upwork.InitPipeline()
-	err := p.Run("Shopify")
+	err := p.Run("pdf")
 	if err != nil {
 		panic(err)
 	}

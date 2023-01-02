@@ -16,7 +16,7 @@ type UpworkPipeLine struct {
 func InitPipeline() *UpworkPipeLine {
 	u := UpworkPipeLine{
 		upworkClient: InitUpwork(),
-		iterations:   5,
+		iterations:   32,
 	}
 	return &u
 }
@@ -144,8 +144,8 @@ func (u *UpworkPipeLine) Run(query string) error {
 		log.Println("Iteration: ", iteration)
 		urlArgs := UrlArgs{
 			Page:     iteration,
-			Per_Page: 100,
-			Query:    "Shopify",
+			Per_Page: 50,
+			Query:    query,
 		}
 		//It is possible to use a go routine here but be nice to the api or you will be rate limited pretty quickly. It is technically possible to circumvent it using a proxy but it is not recommended.
 		// go u.handleRequest(urlArgs, i)
