@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 )
 
 type UpworkPipeLine struct {
@@ -45,8 +46,15 @@ func (u *UpworkPipeLine) CombineFiles() error {
 			all_jobs = append(all_jobs, job.(map[string]interface{}))
 		}
 
+		now := time.Now()
+
+		// Format the date and time using the "2006-01-02" layout
+		dateString := now.Format("2006-01-02")
+
+		// Create the file name using the date string
+		filename := "file_" + dateString + ".json"
+
 		//save to file
-		filename := "all_jobs.json"
 
 		//Convert to json
 		json_data, err := json.Marshal(all_jobs)
