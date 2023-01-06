@@ -1,8 +1,12 @@
 package upwork
 
 import (
+	"bufio"
 	"fmt"
+	"log"
+	"os"
 	"scrapers/network"
+	"strings"
 )
 
 type Upwork struct {
@@ -16,8 +20,8 @@ type UrlArgs struct {
 }
 
 func (u Upwork) ConstructUrl(args UrlArgs) string {
-	url := "https://www.upwork.com/ab/jobs/search/url?q=%s&per_page=%d&sort=recency&payment_verified=1&page=%d"
-	return fmt.Sprintf(url, args.Query, args.Per_Page, args.Page)
+	url := "https://www.upwork.com/ab/jobs/search/url?per_page=%d&sort=recency&payment_verified=1&page=%d&q=%s"
+	return fmt.Sprintf(url, args.Per_Page, args.Page, args.Query)
 }
 
 func (u Upwork) SendRequest(url string) (string, error) {
@@ -29,6 +33,45 @@ func (u Upwork) SendRequest(url string) (string, error) {
 	}
 	return resp.Body, nil
 
+}
+
+func mergeMaps(m1, m2 map[string]string) map[string]string {
+	// Iterate over m2 and add its key-value pairs to m1
+	for k, v := range m2 {
+		m1[k] = v
+	}
+	return m1
+}
+
+func readEnv(filename string) (map[string]string, error) {
+
+	// Open the .env file
+	file, err := os.Open(filename)
+	if err != nil {
+		fmt.Print()
+		return nil, err
+	}
+	defer file.Close()
+
+	// Create a map to store the key-value pairs
+	m := make(map[string]string)
+
+	// Read the file line by line
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		// Split the line on the "=" character
+		parts := strings.SplitN(scanner.Text(), "=", 2)
+		if len(parts) == 2 {
+			// Trim leading and trailing whitespace from the key and value
+			key := strings.TrimSpace(parts[0])
+			value := strings.TrimSpace(parts[1])
+
+			// Add the key-value pair to the map
+			m[key] = value
+		}
+	}
+
+	return m, nil
 }
 
 func InitUpwork() *Upwork {
@@ -47,6 +90,12 @@ func InitUpwork() *Upwork {
 		"x-odesk-user-agent":    "oDesk LM",
 		"x-requested-with":      "XMLHttpRequest",
 	}
+	auth_headers, err := readEnv("upwork/.env")
+	if err != nil {
+		log.Fatal("Could not read .env.auth file")
+	}
+	headers = mergeMaps(auth_headers, headers)
+
 	client := network.InitClient(headers)
 	upwork := Upwork{
 		UpworkHttpClient: client,

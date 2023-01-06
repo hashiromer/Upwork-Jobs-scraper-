@@ -2,6 +2,13 @@ package upwork
 
 import "time"
 
+type LoggedOutError struct {
+	Error struct {
+		Code    int    `json:"code"`
+		Message string `json:"message"`
+	}
+}
+
 type UpworkApiResponse struct {
 	URL           string `json:"url"`
 	SearchGUID    string `json:"searchGuid"`
@@ -276,7 +283,6 @@ type UpworkApiResponse struct {
 				Jordan                           int `json:"Jordan"`
 				Bulgaria                         int `json:"Bulgaria"`
 				Tunisia                          int `json:"Tunisia"`
-				CongoTheDemocraticRepublicOfThe  int `json:"Congo, the Democratic Republic of the"`
 				UnitedArabEmirates               int `json:"United Arab Emirates"`
 				Kenya                            int `json:"Kenya"`
 				FrenchPolynesia                  int `json:"French Polynesia"`
@@ -337,7 +343,7 @@ type UpworkApiResponse struct {
 				Togo                             int `json:"Togo"`
 				SouthernAsia                     int `json:"Southern Asia"`
 				Philippines                      int `json:"Philippines"`
-				CoteDIvoire                      int `json:"Cote d'Ivoire"`
+				CoteDIvoire                      int `json:"Cote d\'Ivoire"`
 				Uzbekistan                       int `json:"Uzbekistan"`
 				Asia                             int `json:"Asia"`
 				BritishVirginIslands             int `json:"British Virgin Islands"`
@@ -474,7 +480,6 @@ type UpworkApiResponse struct {
 				Uganda                           int `json:"Uganda"`
 				Mexico                           int `json:"Mexico"`
 				Suriname                         int `json:"Suriname"`
-				Micronesia                       int `json:"Micronesia"`
 				Greenland                        int `json:"Greenland"`
 			} `json:"location"`
 			Timezone struct {
