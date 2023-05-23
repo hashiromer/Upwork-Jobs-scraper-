@@ -10,3 +10,4 @@ oryxBuildBinary
 *.ipynb
 *.txt
 *.env
+!.env.example

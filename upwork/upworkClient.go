@@ -92,7 +92,7 @@ func InitUpwork() *Upwork {
 	}
 	auth_headers, err := readEnv("upwork/.env")
 	if err != nil {
-		log.Fatal("Could not read .env.auth file")
+		log.Fatal("Could not read .env file, please add .env file in upwork folder")
 	}
 	headers = mergeMaps(auth_headers, headers)
 
