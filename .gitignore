@@ -1,0 +1,13 @@
+data/
+
+
+all_jobs.json
+
+*.json
+*.csv
+*.7z
+oryxBuildBinary
+*.ipynb
+*.txt
+*.env
+!.env.example

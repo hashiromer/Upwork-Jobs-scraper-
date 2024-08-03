@@ -1,0 +1,132 @@
+query UserJobSearch($requestVariables: UserJobSearchV1Request!) {
+  search {
+    universalSearchNuxt {
+      userJobSearchV1(request: $requestVariables) {
+        paging {
+          total
+          offset
+          count
+        }
+        facets {
+          jobType {
+            key
+            value
+          }
+          workload {
+            key
+            value
+          }
+          clientHires {
+            key
+            value
+          }
+          durationV3 {
+            key
+            value
+          }
+          amount {
+            key
+            value
+          }
+          contractorTier {
+            key
+            value
+          }
+          contractToHire {
+            key
+            value
+          }
+          connects: connectPrice {
+            key
+            value
+          }
+          paymentVerified: payment {
+            key
+            value
+          }
+          proposals {
+            key
+            value
+          }
+          previousClients {
+            key
+            value
+          }
+        }
+        results {
+          id
+          title
+          description
+          relevanceEncoded
+          ontologySkills {
+            uid
+            parentSkillUid
+            prefLabel
+            prettyName: prefLabel
+            freeText
+            highlighted
+          }
+          isSTSVectorSearchResult
+          connectPrice
+          applied
+          upworkHistoryData {
+            client {
+              paymentVerificationStatus
+              country
+              totalReviews
+              totalFeedback
+              hasFinancialPrivacy
+              totalSpent {
+                isoCurrencyCode
+                amount
+              }
+            }
+            freelancerClientRelation {
+              lastContractRid
+              companyName
+              lastContractTitle
+            }
+          }
+          jobTile {
+            job {
+              id
+              ciphertext: cipherText
+              jobType
+              weeklyRetainerBudget
+              hourlyBudgetMax
+              hourlyBudgetMin
+              hourlyEngagementType
+              contractorTier
+              sourcingTimestamp
+              createTime
+              publishTime
+              enterpriseJob
+              personsToHire
+              premium
+              totalApplicants
+              hourlyEngagementDuration {
+                rid
+                label
+                weeks
+                mtime
+                ctime
+              }
+              fixedPriceAmount {
+                isoCurrencyCode
+                amount
+              }
+              fixedPriceEngagementDuration {
+                id
+                rid
+                label
+                weeks
+                ctime
+                mtime
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
