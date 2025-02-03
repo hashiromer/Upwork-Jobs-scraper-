@@ -6,6 +6,14 @@ The code uses Upwork's internal Api to scrape new jobs posted on Upwork. I am no
 
 2. I don't have to deal with HTML parsing, the api returns json which can be directly passed to downstream systems.
 
+
+# How to use
+
+1. Create a .env file and add the variables.
+
+2. Run go run main.go
+
+
 # Note
 
 The code uses Golang instead of Python because Upwork filters bots by checking TLS signatures of incoming requests. Unfortunately, I could not
