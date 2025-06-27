@@ -40,6 +40,19 @@ This scraper is written in **Go** instead of Python due to **Upwork's bot detect
 
 ---
 
+You can add the Kaggle dataset link in a dedicated **"Related Resources"** or **"Dataset"** section in the `README.md`. This keeps the repo self-contained while clearly guiding users toward the dataset. Here's how to incorporate it cleanly:
+
+---
+
+## Dataset
+
+A dataset created using this scraper is available on **Kaggle**:
+
+📊 **[Upwork Jobs Dataset on Kaggle](https://www.kaggle.com/datasets/hashiromer/upwork-jobs)**
+
+---
+
+
 ## Contributing
 
 This project is no longer actively maintained, but I occasionally check if it still works (as of **June 27, 2025**, it does).
