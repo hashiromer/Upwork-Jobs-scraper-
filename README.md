@@ -1,24 +1,50 @@
-# Upwork-Jobs-scraper
+# Upwork Jobs Scraper
 
-The code uses Upwork's internal Api to scrape new jobs posted on Upwork. I am not using headless browser due to two reasons.
+This project uses **Upwork's internal API** to scrape newly posted jobs. It avoids using a headless browser for two key reasons:
 
-1. Using headless bowsers is way more resource intensive compared to using an Api.
+1. **Efficiency**: API requests are far less resource-intensive than browser automation.
+2. **Simplicity**: The API returns clean JSON, eliminating the need for HTML parsing and simplifying downstream processing.
 
-2. I don't have to deal with HTML parsing, the api returns json which can be directly passed to downstream systems.
+---
 
-# Note
+## Why Golang?
 
-The code uses Golang instead of Python because Upwork filters bots by checking TLS signatures of incoming requests. Unfortunately, I could not
-find a way to do it in pure Python because Python is compiled with openssl and popular browsers do not use it. Chrome uses BoringSSl and firefox uses NSS.
-These SSL libraries use different extensions and cipher suites which makes detection of TLS level configurations a more robust method to detect bot traffic.
+This scraper is written in **Go** instead of Python due to **Upwork's bot detection techniques**, which rely on analyzing TLS signatures of incoming requests ([explained here](https://scrapfly.io/blog/how-to-avoid-web-scraping-blocking-tls/)).
 
-Golang is a more lower level language compared to Python, so it allows changing network level configurations. I am using `cycletls` package in golang which makes spoofing TLS/JA3 fingerprints an easy task.
+> At the time of development (3 years ago), I could not find an HTTP client in Python that could accurately mimic browser-like TLS signatures. This has since changed as modern Python libraries now support lower-level TLS emulation through bindings to native clients written in Go/C++.
 
-# How can you contribute?
+---
 
-These are some of the features I think could be useful.
-  
-- Better error handling with channels  
-- Add support for automatic proxy rotation. It can be extremely effective when used in conjunction with go routines. 
-- Add Api schema for Upwork Api.
-- Add more scrapers, a lot of logic is platform agnostic which could be used to build scrapers for more platforms.
+## Usage
+
+1. **Add Credentials**
+   Create a `.env` file inside the `upwork/` directory. Add your **authorization** and **cookie** headers.
+
+   > 💡 The easiest way to obtain these is by logging into [Upwork.com](https://www.upwork.com), inspecting **network traffic** in DevTools after passing bot checks, and copying the `Authorization` and `Cookie` headers from any authenticated request.
+
+2. **Keep Credentials Fresh**
+   These credentials usually expire daily, so you'll need to refresh them if scraping on a regular basis.
+
+3. **Run the Scraper**
+   In the `main.go` file, call:
+
+   ```go
+   p.Run("<keyword>")
+   ```
+
+   * Replace `<keyword>` with the term you want to search.
+   * It will fetch the **top 5000 most recent job postings** that match the keyword and save them in a `.jsonl` file.
+   * If you pass an empty string (`p.Run("")`), it will fetch the **most recent jobs** regardless of keyword.
+
+> ⚠️ **Important**: Never use your **personal Upwork account** to extract credentials. Doing so **will result in account suspension**.
+
+---
+
+## Contributing
+
+This project is no longer actively maintained, but I occasionally check if it still works (as of **June 27, 2025**, it does).
+
+**Potential contributions:**
+
+* Automating the refresh of `Authorization` and `Cookie` headers.
+* Adding support for advanced filters or scraping job details.
